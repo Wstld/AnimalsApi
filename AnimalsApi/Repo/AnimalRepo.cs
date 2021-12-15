@@ -6,6 +6,7 @@ using AnimalsApi.Entities.Data;
 using AnimalsApi.Entities.DTO;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AnimalsApi.Repo
 {
@@ -54,9 +55,25 @@ namespace AnimalsApi.Repo
             return response.Result;
         }
 
-        public Animal UpdateAnimalData(Animal animal)
+  
+
+        public Animal UpdateAnimalData(AnimalDTO newAnimalValues, Guid id)
         {
-            throw new NotImplementedException();
+            Animal animal = GetAnimalById(id);
+            if(animal != null)
+            {
+                animal.Name = newAnimalValues.Name ?? animal.Name;
+                animal.Type = newAnimalValues.Type ?? animal.Type;
+                _context.SaveChanges();
+                return animal;
+            }
+            else
+            {
+                return animal;
+            }
+          
         }
+
+    
     }
 }

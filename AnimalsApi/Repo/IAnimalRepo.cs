@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using AnimalsApi.Entities.Data;
 using AnimalsApi.Entities.DTO;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AnimalsApi.Controllers
 {
@@ -13,7 +14,7 @@ namespace AnimalsApi.Controllers
 
         bool AddAnimal(Animal animal);
 
-        Animal UpdateAnimalData(Animal animal);
+        Animal UpdateAnimalData(AnimalDTO newAnimalValues,Guid id);
 
         void DeleteAnimal(Guid Id);
 

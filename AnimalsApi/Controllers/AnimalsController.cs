@@ -81,12 +81,12 @@ namespace AnimalsApi.Controllers
         }
 
 
-        //UPDATE ANIMAL
+        //UPDATE PUT: api/animals/{id} body: {"name":"string",type:"string"}
         [HttpPut ("{id}")]
-        public IActionResult UpdateAnimal([FromBody] Animal animal, Guid id)
+        public IActionResult UpdateAnimal([FromBody] AnimalDTO newAnimalValues, Guid id)
         {
-            _repo.UpdateAnimalData(animal);
-            AnimalDTO animalDTO = _repo.GetAnimalById(animal.Id).mapToAnimalDTO();
+            _repo.UpdateAnimalData(newAnimalValues,id);
+            AnimalDTO animalDTO = _repo.GetAnimalById(id).mapToAnimalDTO();
             return Ok(animalDTO);
         }
 
