@@ -11,7 +11,7 @@ namespace AnimalsApi.Controllers
 
         Animal GetAnimalById(Guid Id);
 
-        Animal AddAnimal(Animal animal);
+        bool AddAnimal(Animal animal);
 
         Animal UpdateAnimalData(Animal animal);
 

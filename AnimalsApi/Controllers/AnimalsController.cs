@@ -39,22 +39,38 @@ namespace AnimalsApi.Controllers
             return animal != null ? Ok(animal) : NotFound("Id not found");
         }
 
-        //POST ANIMAL
+        //POST: api/animals body: {name: string, type: string} 
         [HttpPost("")]
         public IActionResult AddAnimal([FromBody] CreateAnimalDTO newAnimal)
         {
-            Animal createdAnimal = _repo.CreateAnimalFromDTO(newAnimal);
+            if (newAnimal.Name != null)
+            {
+                Animal createdAnimal = _repo.CreateAnimalFromDTO(newAnimal);
 
-            _repo.AddAnimal(createdAnimal);
+                bool addAnimalToDb = _repo.AddAnimal(createdAnimal);
 
-            AnimalDTO addedAnimalDTO = _repo.GetAnimalById(createdAnimal.Id).mapToAnimalDTO();
 
-            return CreatedAtAction(
-                nameof(GetAnimalById),
-                new { id = createdAnimal.Id }, addedAnimalDTO
-                );
+                if (addAnimalToDb == true)
+                {
+                    AnimalDTO addedAnimalDTO = _repo.GetAnimalById(createdAnimal.Id).mapToAnimalDTO();
+
+                    return CreatedAtAction(
+                        nameof(GetAnimalById),
+                        new { id = createdAnimal.Id }, addedAnimalDTO
+                        );
+                }
+                else
+                {
+                    return BadRequest("Can't add without a name");
+                }
+            }
+            else
+            {
+                return BadRequest("Could Not Add Animal, check connection.");
+            }           
 
         }
+
 
         //DELETE ANIMAL
         [HttpDelete("{id}")]

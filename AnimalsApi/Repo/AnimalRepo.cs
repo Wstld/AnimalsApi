@@ -16,16 +16,20 @@ namespace AnimalsApi.Repo
             _context = context;
             }
 
-
-
-        public Animal AddAnimal(Animal animal)
+        public bool AddAnimal(Animal animal)
         {
-            throw new NotImplementedException();
+            var addingAnimal = _context.Animals.AddAsync(animal);
+            _context.SaveChanges();
+            
+            return addingAnimal.IsCompletedSuccessfully;
         }
 
+
+
+        //create new animal from recieved data.
         public Animal CreateAnimalFromDTO(CreateAnimalDTO recivedAnimalData)
         {
-            throw new NotImplementedException();
+            return new Animal { Id = Guid.NewGuid(), Name = recivedAnimalData.Name, Type = recivedAnimalData.Type ?? "Unknown" };
         }
 
         public void DeleteAnimal(Guid Id)
