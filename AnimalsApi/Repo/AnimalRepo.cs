@@ -5,6 +5,7 @@ using AnimalsApi.Entities.Context;
 using AnimalsApi.Entities.Data;
 using AnimalsApi.Entities.DTO;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace AnimalsApi.Repo
 {
@@ -37,10 +38,11 @@ namespace AnimalsApi.Repo
             var response = _context.Animals.ToListAsync();
             return response.Result;
         }
-
+        
         public Animal GetAnimalById(Guid Id)
         {
-            throw new NotImplementedException();
+            var response = _context.Animals.FirstOrDefaultAsync(e => e.Id == Id);
+            return response.Result;
         }
 
         public Animal UpdateAnimalData(Animal animal)

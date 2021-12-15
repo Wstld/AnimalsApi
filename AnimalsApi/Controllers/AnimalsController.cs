@@ -22,7 +22,7 @@ namespace AnimalsApi.Controllers
         }
 
 
-        //GET ALL…
+        //GET ALL: api/animals
         [HttpGet]
         [Route("")]
         public IActionResult GetAllAnimals()
@@ -31,14 +31,11 @@ namespace AnimalsApi.Controllers
             return Ok(respons);
         }
 
-        //GET BY ID
+        //GET BY ID: api/animals/{id}
         [HttpGet("{id}")]
         public IActionResult GetAnimalById(Guid Id)
         {
             Animal animal = _repo.GetAnimalById(Id);
-            
-            
-
             return animal != null ? Ok(animal) : NotFound("Id not found");
         }
 
