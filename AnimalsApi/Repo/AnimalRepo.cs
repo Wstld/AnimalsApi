@@ -25,7 +25,6 @@ namespace AnimalsApi.Repo
         }
 
 
-
         //create new animal from recieved data.
         public Animal CreateAnimalFromDTO(CreateAnimalDTO recivedAnimalData)
         {
@@ -34,7 +33,13 @@ namespace AnimalsApi.Repo
 
         public void DeleteAnimal(Guid Id)
         {
-            throw new NotImplementedException();
+            var removeAnimal = GetAnimalById(Id);
+            if(removeAnimal != null)
+            {
+                _context.Remove(removeAnimal);
+                _context.SaveChanges();
+            }
+
         }
 
         public List<Animal> GetAll()

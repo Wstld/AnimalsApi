@@ -72,12 +72,11 @@ namespace AnimalsApi.Controllers
         }
 
 
-        //DELETE ANIMAL
+        //DELETE ANIMAL: api/animals/{id}
         [HttpDelete("{id}")]
           public IActionResult DeleteAnimal(Guid id)
         {
             _repo.DeleteAnimal(id);
-
             return NoContent();
         }
 
