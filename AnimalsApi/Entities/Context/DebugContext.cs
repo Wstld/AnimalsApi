@@ -15,6 +15,7 @@ namespace AnimalsApi.Entities.Context
         }
 
         public DbSet<Animal> Animals { get; set; }
+        public DbSet<AnimalType> AnimalType { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {

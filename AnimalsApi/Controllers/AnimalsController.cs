@@ -27,8 +27,10 @@ namespace AnimalsApi.Controllers
         [Route("")]
         public IActionResult GetAllAnimals()
         {
-            var respons = _repo.GetAll().ToList(); //Map to prefered output.
-            return Ok(respons);
+            List<AnimalDTO> response = new List<AnimalDTO>(); 
+            var rawAnimalList = _repo.GetAll();
+            rawAnimalList.ForEach(e => response.Add(e.mapToAnimalDTO()));
+            return Ok(response);
         }
 
         //GET BY ID: api/animals/{id}
@@ -83,7 +85,7 @@ namespace AnimalsApi.Controllers
 
         //UPDATE PUT: api/animals/{id} body: {"name":"string",type:"string"}
         [HttpPut ("{id}")]
-        public IActionResult UpdateAnimal([FromBody] AnimalDTO newAnimalValues, Guid id)
+        public IActionResult UpdateAnimal([FromBody] CreateAnimalDTO newAnimalValues, Guid id)
         {
             _repo.UpdateAnimalData(newAnimalValues,id);
             AnimalDTO animalDTO = _repo.GetAnimalById(id).mapToAnimalDTO();

@@ -29,8 +29,12 @@ namespace AnimalsApi.Repo
         //create new animal from recieved data.
         public Animal CreateAnimalFromDTO(CreateAnimalDTO recivedAnimalData)
         {
-            return new Animal { Id = Guid.NewGuid(), Name = recivedAnimalData.Name, Type = recivedAnimalData.Type ?? "Unknown" };
+            AnimalEnum animalTypeID = Enum.Parse<AnimalEnum>(recivedAnimalData.TypeOfAnimal.ToUpper());
+
+            return new Animal { Id = Guid.NewGuid(), Name = recivedAnimalData.Name, TypeId = ((int)animalTypeID) };
         }
+
+
 
         public void DeleteAnimal(Guid Id)
         {
@@ -45,25 +49,31 @@ namespace AnimalsApi.Repo
 
         public List<Animal> GetAll()
         {
-            var response = _context.Animals.ToListAsync();
-            return response.Result;
+
+            var response = _context.Animals.Include(a => a.Type).ToList();
+            return response;
         }
         
         public Animal GetAnimalById(Guid Id)
         {
-            var response = _context.Animals.FirstOrDefaultAsync(e => e.Id == Id);
+            var response = _context.Animals.Include(a => a.Type).FirstOrDefaultAsync(e => e.Id == Id);
             return response.Result;
         }
 
   
 
-        public Animal UpdateAnimalData(AnimalDTO newAnimalValues, Guid id)
+        public Animal UpdateAnimalData(CreateAnimalDTO newAnimalValues, Guid id)
         {
             Animal animal = GetAnimalById(id);
             if(animal != null)
             {
+
                 animal.Name = newAnimalValues.Name ?? animal.Name;
-                animal.Type = newAnimalValues.Type ?? animal.Type;
+                animal.TypeId = newAnimalValues.TypeOfAnimal != null ?
+                    (int)Enum.Parse<AnimalEnum>(newAnimalValues.TypeOfAnimal.ToUpper())
+                    :
+                    animal.TypeId;
+
                 _context.SaveChanges();
                 return animal;
             }

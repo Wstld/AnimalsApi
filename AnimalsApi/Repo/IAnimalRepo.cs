@@ -14,7 +14,7 @@ namespace AnimalsApi.Controllers
 
         bool AddAnimal(Animal animal);
 
-        Animal UpdateAnimalData(AnimalDTO newAnimalValues,Guid id);
+        Animal UpdateAnimalData(CreateAnimalDTO newAnimalValues,Guid id);
 
         void DeleteAnimal(Guid Id);
 
